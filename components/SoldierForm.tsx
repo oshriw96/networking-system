@@ -22,6 +22,7 @@ export default function SoldierForm({ initial, onSubmit, submitLabel }: Props) {
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [agreed, setAgreed] = useState(false)
 
   const handle = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target
@@ -98,13 +99,39 @@ export default function SoldierForm({ initial, onSubmit, submitLabel }: Props) {
         </label>
       </div>
 
+      {/* Disclaimer */}
+      {!initial && (
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-gray-700 leading-relaxed">
+          <p className="font-bold mb-2 text-amber-800">הצהרת המשתמש</p>
+          <p>
+            המידע האישי המוזן במערכת זו, לרבות שם, מספר טלפון, מקצוע ופרטים נוספים, נמסר
+            על ידי המשתמש מרצונו החופשי ובאחריותו הבלעדית. מפעיל המערכת אינו אחראי
+            לנכונות המידע, לעדכניותו, או לכל שימוש שייעשה בו על ידי צדדים שלישיים.
+            המידע מיועד לשימוש פנימי בגדוד צורי בלבד ואין להעבירו לגורמים חיצוניים.
+            בלחיצה על הכפתור להלן מאשר המשתמש כי קרא והבין את האמור לעיל.
+          </p>
+          <div className="flex items-start gap-3 mt-3">
+            <input
+              type="checkbox"
+              id="disclaimer"
+              checked={agreed}
+              onChange={e => setAgreed(e.target.checked)}
+              className="w-5 h-5 mt-0.5 cursor-pointer"
+            />
+            <label htmlFor="disclaimer" className="cursor-pointer font-semibold text-amber-900">
+              קראתי ואני מסכים לתנאים לעיל
+            </label>
+          </div>
+        </div>
+      )}
+
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
           {error}
         </div>
       )}
 
-      <button type="submit" className="btn-primary text-base py-3" disabled={loading}>
+      <button type="submit" className="btn-primary text-base py-3" disabled={loading || (!initial && !agreed)}>
         {loading ? 'שולח...' : submitLabel}
       </button>
     </form>
