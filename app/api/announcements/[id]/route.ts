@@ -9,14 +9,21 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
     return NextResponse.json({ error: 'לא מורשה' }, { status: 401 })
   }
 
-  const client = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { autoRefreshToken: false, persistSession: false } }
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/announcements?id=eq.${id}`,
+    {
+      method: 'DELETE',
+      headers: {
+        'apikey': process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        'Authorization': `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY!}`,
+        'Content-Type': 'application/json',
+      },
+    }
   )
 
-  const { error } = await client.from('announcements').delete().eq('id', id)
-
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (!res.ok) {
+    const err = await res.text()
+    return NextResponse.json({ error: err }, { status: 500 })
+  }
   return NextResponse.json({ success: true })
 }
