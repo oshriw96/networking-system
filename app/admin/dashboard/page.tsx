@@ -55,7 +55,8 @@ export default function AdminDashboard() {
     if (res.ok) {
       setAnnouncements(prev => prev.filter(a => a.id !== id))
     } else {
-      alert('שגיאה במחיקה')
+      const d = await res.json()
+      alert('שגיאה במחיקה: ' + (d.error || res.status))
     }
   }
 
