@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
   let query = supabase.from('soldiers').select('*').order('created_at', { ascending: false })
 
   if (category && category !== 'הכל') {
-    query = query.eq('category', category)
+    query = query.contains('category', [category])
   }
 
   if (search) {
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json()
   const { full_name, phone, profession, category, company_name, description, platoon } = body
 
-  if (!full_name || !phone || !profession || !category) {
+  if (!full_name || !phone || !profession || !category || !category.length) {
     return NextResponse.json({ error: 'שדות חובה חסרים' }, { status: 400 })
   }
 

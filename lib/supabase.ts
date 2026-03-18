@@ -10,7 +10,7 @@ export type Soldier = {
   full_name: string
   phone: string
   profession: string
-  category: string
+  category: string[]
   company_name: string | null
   description: string | null
   is_available: boolean

@@ -13,7 +13,11 @@ export default function SoldierCard({ soldier }: { soldier: Soldier }) {
         <h3 className="text-lg font-bold" style={{ color: 'var(--olive-dark)' }}>
           {soldier.full_name}
         </h3>
-        <span className="category-badge">{soldier.category}</span>
+        <div className="flex flex-wrap gap-1">
+          {(Array.isArray(soldier.category) ? soldier.category : [soldier.category]).map(c => (
+            <span key={c} className="category-badge">{c}</span>
+          ))}
+        </div>
       </div>
 
       <p className="font-semibold text-gray-700 mb-1">{soldier.profession}</p>

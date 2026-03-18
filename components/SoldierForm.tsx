@@ -14,7 +14,7 @@ export default function SoldierForm({ initial, onSubmit, submitLabel }: Props) {
     full_name: initial?.full_name || '',
     phone: initial?.phone || '',
     profession: initial?.profession || '',
-    category: initial?.category || '',
+    category: initial?.category || [] as string[],
     company_name: initial?.company_name || '',
     description: initial?.description || '',
     platoon: initial?.platoon || '',
@@ -32,9 +32,22 @@ export default function SoldierForm({ initial, onSubmit, submitLabel }: Props) {
     }))
   }
 
+  const toggleCategory = (cat: string) => {
+    setForm(prev => ({
+      ...prev,
+      category: prev.category.includes(cat)
+        ? prev.category.filter(c => c !== cat)
+        : [...prev.category, cat],
+    }))
+  }
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+    if (form.category.length === 0) {
+      setError('יש לבחור לפחות קטגוריה אחת')
+      return
+    }
     setLoading(true)
     try {
       await onSubmit(form)
@@ -59,15 +72,26 @@ export default function SoldierForm({ initial, onSubmit, submitLabel }: Props) {
 
       <div>
         <label className="block font-semibold mb-1">מקצוע / תפקיד *</label>
-        <input name="profession" value={form.profession} onChange={handle} required className="input-field" placeholder="עו&quot;ד, רואה חשבון, מפתח תוכנה..." />
+        <input name="profession" value={form.profession} onChange={handle} required className="input-field" placeholder='עו"ד, רואה חשבון, מפתח תוכנה...' />
       </div>
 
       <div>
-        <label className="block font-semibold mb-1">קטגוריה *</label>
-        <select name="category" value={form.category} onChange={handle} required className="input-field">
-          <option value="">בחר קטגוריה...</option>
-          {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-        </select>
+        <label className="block font-semibold mb-2">קטגוריה * <span className="text-gray-400 font-normal text-sm">(ניתן לבחור יותר מאחת)</span></label>
+        <div className="flex flex-wrap gap-2">
+          {CATEGORIES.map(c => (
+            <button
+              key={c}
+              type="button"
+              onClick={() => toggleCategory(c)}
+              className={`category-btn ${form.category.includes(c) ? 'active' : ''}`}
+            >
+              {c}
+            </button>
+          ))}
+        </div>
+        {form.category.length === 0 && (
+          <p className="text-xs text-gray-400 mt-1">לא נבחרה קטגוריה</p>
+        )}
       </div>
 
       <div>

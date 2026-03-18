@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
     s.full_name,
     s.phone,
     s.profession,
-    s.category,
+    Array.isArray(s.category) ? s.category.join(', ') : s.category,
     s.platoon || '',
     s.company_name || '',
     s.description || '',
