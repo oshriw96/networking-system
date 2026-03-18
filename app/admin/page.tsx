@@ -6,12 +6,27 @@ import Header from '@/components/Header'
 export default function AdminLoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
-  const login = () => {
+  const login = async () => {
     if (!password) return
-    localStorage.setItem('admin_password', password)
-    router.push('/admin/dashboard')
+    setLoading(true)
+    setError('')
+
+    const res = await fetch('/api/admin-auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    })
+
+    if (res.ok) {
+      localStorage.setItem('admin_password', password)
+      router.push('/admin/dashboard')
+    } else {
+      setError('סיסמה שגויה')
+    }
+    setLoading(false)
   }
 
   return (
@@ -25,13 +40,16 @@ export default function AdminLoginPage() {
           <input
             type="password"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={e => { setPassword(e.target.value); setError('') }}
             onKeyDown={e => e.key === 'Enter' && login()}
             placeholder="סיסמה"
             className="input-field mb-4"
+            autoFocus
           />
-          {error && <p className="text-red-600 mb-3">{error}</p>}
-          <button onClick={login} className="btn-primary w-full">כניסה</button>
+          {error && <p className="text-red-600 mb-3 text-sm">{error}</p>}
+          <button onClick={login} className="btn-primary w-full" disabled={loading}>
+            {loading ? 'בודק...' : 'כניסה'}
+          </button>
         </div>
       </main>
     </div>
