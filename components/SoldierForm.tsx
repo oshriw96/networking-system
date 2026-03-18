@@ -82,7 +82,7 @@ export default function SoldierForm({ initial, onSubmit, submitLabel }: Props) {
 
       <div>
         <label className="block font-semibold mb-1">תיאור קצר (אופציונלי)</label>
-        <textarea name="description" value={form.description} onChange={handle} className="input-field" rows={3} placeholder="במה אתה יכול לעזור לחיילים אחרים?" />
+        <textarea name="description" value={form.description} onChange={handle} className="input-field" rows={3} placeholder="איך אני יכול לעזור לגדוד/לפלוגה?" />
       </div>
 
       <div className="flex items-center gap-3">
