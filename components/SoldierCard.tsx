@@ -1,5 +1,11 @@
 import { Soldier } from '@/lib/supabase'
 
+function formatWhatsApp(phone: string) {
+  const digits = phone.replace(/\D/g, '')
+  const international = digits.startsWith('0') ? '972' + digits.slice(1) : digits
+  return `https://wa.me/${international}`
+}
+
 export default function SoldierCard({ soldier }: { soldier: Soldier }) {
   return (
     <div className="card">
@@ -24,18 +30,28 @@ export default function SoldierCard({ soldier }: { soldier: Soldier }) {
         <p className="text-sm text-gray-600 mb-3 leading-relaxed">{soldier.description}</p>
       )}
 
-      <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
-        <a
-          href={`tel:${soldier.phone}`}
-          className="flex items-center gap-2 font-bold text-sm"
-          style={{ color: 'var(--olive)' }}
-        >
-          📞 {soldier.phone}
-        </a>
+      <div className="mt-3 pt-3 border-t border-gray-100">
+        <p className="text-xs text-gray-400 mb-2">{soldier.phone}</p>
+        <div className="flex gap-2">
+          <a
+            href={`tel:${soldier.phone}`}
+            className="flex-1 flex items-center justify-center gap-1 py-2 rounded-lg text-sm font-bold text-white"
+            style={{ background: 'var(--olive)' }}
+          >
+            📞 חיוג
+          </a>
+          <a
+            href={formatWhatsApp(soldier.phone)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 flex items-center justify-center gap-1 py-2 rounded-lg text-sm font-bold text-white"
+            style={{ background: '#25D366' }}
+          >
+            💬 וואטסאפ
+          </a>
+        </div>
         {!soldier.is_available && (
-          <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-full">
-            לא זמין כרגע
-          </span>
+          <p className="text-xs text-gray-400 text-center mt-2">לא זמין כרגע</p>
         )}
       </div>
     </div>
