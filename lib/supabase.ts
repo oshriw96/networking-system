@@ -5,6 +5,14 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
 export const supabase = createClient(supabaseUrl, supabaseKey)
 
+export type Announcement = {
+  id: string
+  title: string | null
+  content: string
+  phone: string | null
+  created_at: string
+}
+
 export type Soldier = {
   id: string
   full_name: string

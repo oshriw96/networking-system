@@ -100,8 +100,8 @@ export default function SoldierForm({ initial, onSubmit, submitLabel }: Props) {
       </div>
 
       <div>
-        <label className="block font-semibold mb-1">שם חברה (אופציונלי)</label>
-        <input name="company_name" value={form.company_name} onChange={handle} className="input-field" placeholder="שם החברה שאתה עובד בה" />
+        <label className="block font-semibold mb-1">מקום עבודה (אופציונלי)</label>
+        <input name="company_name" value={form.company_name} onChange={handle} className="input-field" placeholder="שם החברה / מקום העבודה שלך" />
       </div>
 
       <div>

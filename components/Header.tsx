@@ -29,6 +29,7 @@ export default function Header() {
         {/* Desktop nav */}
         <nav className="hidden sm:flex gap-2">
           <Link href="/" className="btn-secondary text-sm">דף הבית</Link>
+          <Link href="/board" className="btn-secondary text-sm">לוח מודעות</Link>
           <Link href="/edit" className="btn-secondary text-sm">עדכן פרטים</Link>
           <Link href="/register" className="text-sm font-bold px-4 py-2 rounded-lg" style={{ background: 'white', color: 'var(--olive)' }}>
             הוסף את עצמך
@@ -48,6 +49,7 @@ export default function Header() {
       {menuOpen && (
         <div className="sm:hidden mt-3 flex flex-col gap-2 px-4 pb-3">
           <Link href="/" className="btn-secondary text-sm text-center" onClick={() => setMenuOpen(false)}>דף הבית</Link>
+          <Link href="/board" className="btn-secondary text-sm text-center" onClick={() => setMenuOpen(false)}>לוח מודעות</Link>
           <Link href="/edit" className="btn-secondary text-sm text-center" onClick={() => setMenuOpen(false)}>עדכן פרטים</Link>
           <Link href="/register" className="text-sm font-bold px-4 py-2 rounded-lg text-center" style={{ background: 'white', color: 'var(--olive)' }} onClick={() => setMenuOpen(false)}>
             הוסף את עצמך
