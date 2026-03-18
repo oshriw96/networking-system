@@ -42,7 +42,8 @@ export default function AdminDashboard() {
     if (res.ok) {
       setSoldiers(prev => prev.filter(s => s.id !== id))
     } else {
-      alert('שגיאה במחיקה — בדוק את הסיסמה')
+      const d = await res.json()
+      alert('שגיאה במחיקה: ' + (d.error || res.status))
     }
   }
 
