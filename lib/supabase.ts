@@ -5,6 +5,12 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
 export const supabase = createClient(supabaseUrl, supabaseKey)
 
+// קליינט אדמין לשימוש בצד שרת בלבד — עוקף הגבלות
+export const supabaseAdmin = createClient(
+  supabaseUrl,
+  process.env.SUPABASE_SERVICE_ROLE_KEY || supabaseKey
+)
+
 export type Announcement = {
   id: string
   title: string | null
