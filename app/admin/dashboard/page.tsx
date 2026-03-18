@@ -46,7 +46,7 @@ export default function AdminDashboard() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = 'gidud-tzuri-network.xlsx'
+    a.download = 'gidud-tzuri-network.csv'
     a.click()
   }
 
